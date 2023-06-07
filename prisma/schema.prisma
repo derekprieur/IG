@@ -15,37 +15,10 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Matter {
-    id        String   @id @default(uuid())
-    userId    String
+model Example {
+    id        String   @id @default(cuid())
     createdAt DateTime @default(now())
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Contact {
-    id     String @id @default(uuid())
-    userId String
-    name   String
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Document {
-    id     String @id @default(uuid())
-    userId String
-    name   String
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model Task {
-    id     String @id @default(uuid())
-    userId String
-    name   String
-    status String
-
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    updatedAt DateTime @updatedAt
 }
 
 // Necessary for Next auth
@@ -76,17 +49,13 @@ model Session {
 }
 
 model User {
-    id            String     @id @default(cuid())
+    id            String    @id @default(cuid())
     name          String?
-    email         String?    @unique
+    email         String?   @unique
     emailVerified DateTime?
     image         String?
     accounts      Account[]
     sessions      Session[]
-    matters       Matter[]
-    contacts      Contact[]
-    documents     Document[]
-    tasks         Task[]
 }
 
 model VerificationToken {
